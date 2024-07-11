@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="../../static/CSS/style_horas.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {% load static %}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,300;0,700;0,900;1,100;1,600&family=Montserrat:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="../../static/IMG/logo_final.png">
+  {% block cabecera %}
+  <title>Calmind | Registrar hora de agenda </title>
+  {% endblock cabecera %}
+
+{% block content %}
+    {% if user.is_authenticated and user.is_superuser%}
+    <h1>Ingrese una hora de agenda para el Psicologo  <i class="fa fa-clock-o" aria-hidden="true"></i></h1>
+        <br>
+        <form method="POST" class="card" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="form-control">
+                {{ form.as_p }}
+            </div>
+            <br><br>
+            </div>
+            <button type="submit" class="save btn btn-success ">Guardar <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+            <br>
+            <a href="{% url 'adm' %}"><button style="width: 798px;" type="button" class="btn btn-danger">Volver a la administración <i class="fa fa-arrow-left" aria-hidden="true"></i></button></a>
+          
+        </form>
+    {% else %}
+        <h2>usted no tiene permiso para acceder a esta página!</h2>
+    {% endif %}
+{% endblock %}
+
+<br><br><br>
+
+
+
+<script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"></script>
+<script src="../static/JS/main.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  {% if messages %}
+  {% for m in messages %}
+  <script>
+    Swal.fire({
+      text: "{{m}}",
+      icon: 'success',
+      confirmButtonText: 'Vale',
+      confirmButtonColor: '#b8d6c5',
+      backdrop: true,
+      timer: 10000,
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+    })
+
+  </script>
+
+  {% endfor %}
+  {% endif %}
+  {% block js %}
+  {% endblock %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+

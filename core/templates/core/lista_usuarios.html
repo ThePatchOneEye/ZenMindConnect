@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ZenMindConnect | Listado de usuarios</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <link rel="stylesheet" href="../static/CSS/style_listado.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,300;0,700;0,900;1,100;1,600&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">   
+    <link rel="icon" href="../static/IMG/logo_final.png">
+    <header class="header">
+ 
+</head>
+<body>
+
+
+
+    <section>
+        <center>
+          <h1>Listado de usuarios <i class="fa fa-users" aria-hidden="true"></i></h1>
+  
+        </center>
+        <div id="sep">
+        </div>
+      </section>
+  
+  
+      <div class="container">
+        <div class="row">
+          <h4></h4>
+        </div>
+
+
+
+
+
+
+
+    <table class=table>
+            <thead>
+                <tr>
+                    <th scope="col"><i class="fa fa-id-card" aria-hidden="true"></i > Rut</th>
+                    <th scope="col"><i class="fa fa-user" aria-hidden="true"></i> Nombres</th>
+                    <th scope="col"><i class="fa fa-user" aria-hidden="true"></i> Apellidos</th>
+                    <th scope="col"><i class="fa fa-birthday-cake" aria-hidden="true"></i> Fecha de nacimiento</th>
+                    <th scope="col"><i class="fa fa-envelope" aria-hidden="true"></i> Correo electronico</th>
+                    <th scope="col"><i class="fa fa-phone" aria-hidden="true"></i> telefono</th>
+                    <th scope="col"><i class="fa fa-phone" aria-hidden="true"></i> Opciones</th>
+
+            </thead>
+            <tbody>
+                {%for ve in datos%}
+                    <tr>
+                        <td>{{ve.rut}}</td>
+                        <td>{{ve.nombre}}</td>
+                        <td>{{ve.apellido}}</td>
+                        <td>{{ve.fechaNac}}</td>
+                        <td>{{ve.correo}}</td>
+                        <td>{{ve.telefono}}</td>
+                        <td><a href="{% url 'form_borrar_persona' ve.rut %}" id="btneliminar" class="btn btn-danger">Eliminar🗑️</a></td>
+
+                    </tr>
+                {%endfor%}
+
+            </tbody>
+
+    </table>
+    <a href="{% url 'index' %}" class="btn btn-danger">Volver al Inicio <i class="fa fa-home" aria-hidden="true"></i>    </a>
+   </div>
+  </div>
+
+  <br><br><br>
+
+
+    <!--::::Pie de Pagina::::::-->
+<footer class="pie-pagina">
+    <div class="grupo-1">
+        <div class="box">
+            <figure>
+                <a href="#">
+                    <img src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+                </a>
+            </figure>
+        </div>
+        <div class="box">
+            <h2>Integrantes</h2>
+            <p>Nicolas Parra</p>
+            <p>Alexis Peña</p>
+        </div>
+        <div class="box">
+            <h2>SIGUENOS EN REDES SOCIALES</h2>
+            <div class="red-social">
+                <a target="_blank" href="https://www.facebook.com/profile.php?id=100081188664230" class="fa fa-facebook"></a>
+                <a target="_blank" href="https://www.instagram.com/calmind_psicol/" class="fa fa-instagram"></a>
+                <a target="_blank" href="https://twitter.com/Calmind_psico" class="fa fa-twitter"></a></a>
+                <a target="_blank" href="https://www.youtube.com/channel/UCReRVATCJYfHPiw00Be-2ug" class="fa fa-youtube"></a>
+            </div>
+            <h2>Contacto</h2>
+            <h2>ZenMindConnect.scrum@hotmail.com <i class="fa fa-envelope" aria-hidden="true"></i></h2>
+            <h2>777-666-5555 <i class="fa fa-phone-square" aria-hidden="true"></i></h2>
+        </div>
+    </div>
+    <div class="grupo-2">
+        <small>&copy; 2023 <b>Desarrollado por TeamZenMindConnect</b> - @Copyrigth|Todos los Derechos Reservados.</small>
+    </div>
+  </footer>
+  
+    <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="../static/JS/main.js"></script>
+
+ 
+  
+    
+  
+
+
+
+    </body>
+</html>

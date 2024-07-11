@@ -1,0 +1,227 @@
+<head>
+    <title>ZenMindConnect | Administración</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../static/CSS/style_blog.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,300;0,700;0,900;1,100;1,600&family=Montserrat:wght@400;500&display=swap"
+      rel="stylesheet">
+    <link rel="icon" href="../static/IMG/logo_final.png">
+  
+  </head>
+  
+  
+  <body>
+  
+    <!-- ::::: MENU ::::: -->
+  
+    <div class="header">
+      <nav class="navbar navbar-expand-lg navbar-light color-barra">
+        <!-- Logo menu -->
+        <div>
+          <a class="navbar-brand" href="">
+            <img class="logo_final" src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+          </a>
+          <span class="calmind-text" style="color: white; font-family: 'Roboto', cursive; font-size: 36px;">ZenMindConnect</span>
+        </div>
+        <!-- Botón de hamburguesa -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Opciones del menú -->
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navg navbar-nav w-100 justify-center-center">
+            <a class="nav-item nav-link active" href="{% url 'index' %}">
+              Inicio <i class="fa fa-home" aria-hidden="true"></i>
+            </a>
+            <a class="nav-item nav-link" href="{% url 'nos' %}">
+              Nosotros <i class="fa fa-users" aria-hidden="true"></i>
+            </a>
+            {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="{% url 'frontpage' %}">
+              Blog <i class="fa fa-clipboard" aria-hidden="true"></i>
+            </a>
+            {% if user.is_superuser %}
+            <!-- No mostrar esta parte del menú al superusuario -->
+        {% else %}
+            <a class="nav-item nav-link" href="{% url 'autenticar_persona' %}">Reservar una cita <i class="fa fa-calendar-check-o" aria-hidden="true"></i></a>
+      <!-- Mostrar esta parte del menú a otros usuarios -->
+          <!-- Contenido del dropdown -->
+  {% endif %}
+            <li class="dropdown">
+              <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                {{ user.username }} <i class="fa fa-user-circle" aria-hidden="true"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="nav-item nav-link" href="{% url 'logout' %}">
+                    Cerrar sesión <i class="fa fa-user-times" aria-hidden="true"></i>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {% if user.is_superuser %}
+            <li class="dropdown">
+              <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                Administrar <i class="fa fa-cogs" aria-hidden="true"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="nav-item nav-link" href="adm">Mantenedor de clientes <i class="fa fa-users" aria-hidden="true"></i></a>
+                </li>
+              </ul>
+            </li>
+            {% endif %}
+            {% else %}
+            <a class="nav-item nav-link" href="{% url 'log' %}">Iniciar sesión</a>
+            <a class="nav-item nav-link" href="{% url 'form_persona' %}">Registrarse</a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+
+
+
+{% block content %}
+    {% if user.is_authenticated%}
+       
+
+
+        <section>
+            <center>
+              <h1><strong> Bienvenido Administrador: {{ user.username }}</strong> <i class="fa fa-user-o" aria-hidden="true"></i></h1>
+      
+            </center>
+            <div id="sep">
+            </div>
+          </section>
+      
+      
+          <div class="container">
+            <div class="row">
+              <h4></h4>
+            </div>
+      
+
+
+      
+
+            <div class="card card-container card-body" style="font-size: large;">
+              <div class="table-responsive">
+                <table class="table">
+                  <tr>
+                    <td>
+                      <a href="{% url 'registrar_especialidad' %}">
+                        <button type="button" class="btn btn-success btn-lg btn-block">Registrar Especialidad <i class="fa fa-plus-square" aria-hidden="true"></i></button>
+                      </a>
+                    </td>
+                    <td>
+                      <a href="{% url 'registrar_psicologo' %}">
+                        <button type="button" class="btn btn-info btn-lg btn-block">Registrar Psicologo <i class="fa fa-heartbeat" aria-hidden="true"></i></button>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="{% url 'insertar_horarios' %}">
+                        <button type="button" class="btn btn-secondary btn-lg btn-block">Ingresar Horarios <i class="fa fa-clock-o" aria-hidden="true"></i></button>
+                      </a>
+                    </td>
+                    <td>
+                      <a href="{% url 'crear_nueva_agenda' %}">
+                        <button type="button" class="btn btn-primary btn-lg btn-block">Crear nueva agenda <i class="fa fa-calendar-check-o" aria-hidden="true"></i></button>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <a href="{% url 'lista_usuarios' %}">
+                        <button type="button" class="btn btn-danger btn-lg btn-block">Ver lista de pacientes <i class="fa fa-users" aria-hidden="true"></i></button>
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            
+    {% else %}
+        <h2>Usted no tiene permiso para acceder a esta página!</h2>
+    {% endif %}
+
+{% endblock %}
+
+
+
+<br><br>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<!--::::Pie de Pagina::::::-->
+<footer class="pie-pagina">
+  <div class="grupo-1">
+    <div class="box">
+      <figure>
+        <a href="#">
+          <img src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+        </a>
+      </figure>
+    </div>
+    <div class="box">
+      <h2>Integrantes</h2>
+      <p>Nicolas Parra</p>
+      <p>Alexis Peña</p>
+    </div>
+    <div class="box">
+      <h2>SIGUENOS EN REDES SOCIALES</h2>
+      <div class="red-social">
+        <a target="_blank" href="https://www.facebook.com/profile.php?id=100081188664230"
+          class="fa fa-facebook"></a>
+        <a target="_blank" href="https://www.instagram.com/calmind_psicol/" class="fa fa-instagram"></a>
+        <a target="_blank" href="https://twitter.com/Calmind_psico" class="fa fa-twitter"></a></a>
+        <a target="_blank" href="https://www.youtube.com/channel/UCReRVATCJYfHPiw00Be-2ug"
+          class="fa fa-youtube"></a>
+      </div>
+      <h2>Contacto</h2>
+      <h2>ZenMindConnect.scrum@hotmail.com <i class="fa fa-envelope" aria-hidden="true"></i></h2>
+      <h2>777-666-5555 <i class="fa fa-phone-square" aria-hidden="true"></i></h2>
+    </div>
+  </div>
+  <div class="grupo-2">
+    <small>&copy; 2023 <b>Desarrollado por TeamZenMindConnect </b> - @Copyrigth|Todos los Derechos Reservados.</small>
+  </div>
+</footer>
+
+<script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"></script>
+<script src="../static/JS/main.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+
+</body>
+
+</html>

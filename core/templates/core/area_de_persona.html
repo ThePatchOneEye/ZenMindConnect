@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>ZenMindConnect | Area de usuario</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../static/CSS/style_blog.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,300;0,700;0,900;1,100;1,600&family=Montserrat:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="../static/IMG/logo_final.png">
+
+</head>
+<body>
+
+  <!-- ::::: MENU ::::: -->
+  <div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light color-barra">
+      <!-- Logo menu -->
+      <div>
+        <a class="navbar-brand" href="">
+          <img class="logo_final" src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+        </a>
+      </div>
+      <!-- Agregar "Calmind" -->
+      <span class="calmind-text" style="color: white; font-family: 'Roboto', cursive; font-size: 36px;">ZenMindConnect</span>
+      <!-- Botón de hamburguesa -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Opciones menu -->
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navg navbar-nav w-100 justify-center-center">
+          <a class="nav-item nav-link active" href="{% url 'index' %}">
+            Inicio <i class="fa fa-home" aria-hidden="true"></i>
+          </a>
+          <a class="nav-item nav-link" href="{% url 'nos' %}">
+            Nosotros <i class="fa fa-users" aria-hidden="true"></i>
+          </a>
+          <a class="nav-item nav-link" href="frontpage">
+            Blog <i class="fa fa-clipboard" aria-hidden="true"></i>
+          </a>
+          <a class="nav-item nav-link" href="autenticar_persona">
+            Reservar una cita <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+          </a>
+          {% if user.is_authenticated %}
+          <li class="dropdown">
+            <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+              {{ user.username }} <i class="fa fa-user-circle" aria-hidden="true"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">
+                  Cerrar sesión <i class="fa fa-user-times" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li><a class="nav-item nav-link" href="{% url 'form_mod_persona' %}">Editar perfil <i class="fa fa-pencil-square" aria-hidden="true"></i></a></li>
+            </ul>
+          </li>
+          {% else %}
+          <a class="nav-item nav-link" href="{% url 'log' %}">Iniciar sesión</a>
+          <a class="nav-item nav-link" href="{% url 'form_persona' %}">Registrarse</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+
+    <section>
+      <center>
+        <h1><br> Horas de reserva <i class="fa fa-clock-o" aria-hidden="true"></i> <i class="fa fa-clipboard" aria-hidden="true"></i></h1>
+      </center>
+      <div id="sep">
+      </div>
+    </section>
+
+
+  <div class="card-container card card-body" style="font-size: large;">
+    <div class="container">
+      <div class="row">
+        <h2>{{user.username}} tus horas son:</h2>
+      </div>
+
+      {% block content %}
+    <table class="table">
+        <tr>
+            <td>
+                <h3>Consultas:</h3>
+                {% for consultas in persona.consulta.all %}
+                
+                    Psicologo: {{ consultas.psicologo }}<br/>
+                    Data: {{ consultas.data }}<br/>
+                    <br>
+
+                  {% empty %}
+                    <div class="notification">
+                      <p>Aún no has reservado ninguna hora <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                      </p>
+                    </div>
+                    
+                  {% endfor %}
+
+             
+            </td>
+            <td>
+                <a href="{% url 'listar_agendas' %}">
+                    <button type="button" class="btn btn-success">Ver agendas del psicologo <i class="fa fa-eye"
+                      aria-hidden="true"></i></button>
+                </a>
+
+                <a href="{% url 'index' %}">
+                  <button type="button" class="btn btn-danger">ir Atras <i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+              </a>
+
+            </td>
+        </tr>
+        <tr>
+            
+  
+{% endblock %}
+
+</div>
+<br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"></script>
+<script src="../static/JS/main.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+
+</body>
+
+</html>

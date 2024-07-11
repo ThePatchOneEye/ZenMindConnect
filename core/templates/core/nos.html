@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <title>ZenMindConnect | Nosotros</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../../static/CSS/style_nos.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,300;0,700;0,900;1,100;1,600&family=Montserrat:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+  <link rel="icon" href="../../static/IMG/logo_final.png">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+      font-family: "Lato", sans-serif
+    }
+
+    .mySlides {
+      display: none
+    }
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- ::::: MENU ::::: -->
+
+  <div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light color-barra">
+      <!-- Logo menu -->
+      <div>
+        <a class="navbar-brand" href="">
+          <img class="logo_final" src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+        </a>
+        <span class="calmind-text" style="color: white; font-family: 'Roboto', cursive; font-size: 36px;">ZenMindConnect</span>
+
+      </div>
+      <!-- Botón de hamburguesa -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Contenedor de opciones del menú -->
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navg navbar-nav w-100 justify-center-center">
+          <a class="nav-item nav-link active" href="{% url 'index' %}">
+            Inicio <i class="fa fa-home" aria-hidden="true"></i>
+          </a>
+          <a class="nav-item nav-link" href="{% url 'nos' %}">
+            Nosotros <i class="fa fa-users" aria-hidden="true"></i>
+          </a>
+          {% if user.is_authenticated %}
+          <a class="nav-item nav-link" href="{% url 'frontpage' %}">
+            Blog <i class="fa fa-clipboard" aria-hidden="true"></i>
+          </a>
+          {% if user.is_superuser %}
+          <!-- No mostrar esta parte del menú al superusuario -->
+      {% else %}
+          <a class="nav-item nav-link" href="{% url 'autenticar_persona' %}">Reservar una cita <i class="fa fa-calendar-check-o" aria-hidden="true"></i></a>
+    <!-- Mostrar esta parte del menú a otros usuarios -->
+        <!-- Contenido del dropdown -->
+{% endif %}
+          <li class="dropdown">
+            <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;">
+              {{ user.username }} <i class="fa fa-user-circle" aria-hidden="true"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">
+                  Cerrar sesión <i class="fa fa-user-times" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li><a class="nav-item nav-link" href="{% url 'form_mod_persona' %}">Editar perfil <i class="fa fa-pencil-square" aria-hidden="true"></i></a></li>
+            </ul>
+          </li>
+          {% if user.is_superuser %}
+          <li class="dropdown">
+            <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;">
+              Administrar <i class="fa fa-cogs" aria-hidden="true"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="nav-item nav-link" href="{% url 'adm' %}">
+                  Mantenedor de clientes <i class="fa fa-users" aria-hidden="true"></i>
+                </a>
+              </li>
+            </ul>
+          </li>
+          {% endif %}
+          {% else %}
+          <a class="nav-item nav-link" href="{% url 'log' %}" style="color: white;">Iniciar sesión</a>
+          <a class="nav-item nav-link" href="{% url 'form_persona' %}" style="color: white;">Registrarse</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+  
+
+
+    <!-- ::::: FIN MENU ::::: -->
+
+
+
+
+
+
+    <section>
+      <center>
+        <strong><h1  style="color: rgb(0, 113, 85);">Sobre Nosotros </h1></strong>
+
+      </center>
+      <div id="sep">
+      </div>
+    </section>
+
+  
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+  
+      #video-container {
+        max-width: 800px;
+        margin: 20px auto;
+        position: relative;
+      }
+  
+      video {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+  
+      #controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 10px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transition: opacity 0.5s;
+      }
+  
+      #controls button {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 0 10px;
+      }
+  
+      #volume-bar {
+        width: 100px;
+        background-color: orange;
+      }
+  
+      #fullscreen-btn {
+        cursor: pointer;
+      }
+  
+      #speed-control {
+        display: inline-block;
+        margin-right: 10px;
+      }
+  
+      #progress-bar-container {
+        flex: 1;
+        margin: 0 10px;
+        cursor: pointer;
+        position: relative;
+      }
+  
+      #progress-bar {
+        width: 100%;
+        height: 10px;
+        background-color: #ddd;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+  
+      #progress-bar-inner {
+        height: 100%;
+        width: 0;
+        background-color: #4caf50;
+        position: absolute;
+      }
+  
+      #current-time {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        color: #fff;
+        margin-left: 5px;
+      }
+  
+      #pause-icon {
+        font-size: 24px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+  
+  <div id="video-container">
+    <video id="myVideo" controls>
+      <source src="../../static/Video/Video ZenMindConnect.mp4" type="video/mp4">
+      Tu navegador no soporta el tag de video.
+    </video>
+    <div id="controls" onmousemove="showControls()" onmouseleave="hideControls()">
+      <button onclick="rewind()">&#9668;&#9668;</button>
+      <button onclick="togglePlayPause()">
+        <i id="play-icon" class="fas fa-play"></i>
+        <i id="pause-icon" class="fas fa-pause"></i>
+      </button>
+      <button onclick="fastForward()">&#9658;&#9658;</button>
+      <div id="speed-control">
+        <label for="speed">Speed:</label>
+        <select id="speed" onchange="changeSpeed()">
+          <option value="0.5">0.5x</option>
+          <option value="1" selected>1x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2">2x</option>
+        </select>
+      </div>
+      <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1" onchange="changeVolume()">
+      <div id="progress-bar-container" onclick="seek(event)">
+        <div id="progress-bar">
+          <div id="progress-bar-inner"></div>
+          <div id="current-time">0:00</div>
+        </div>
+      </div>
+      <button id="fullscreen-btn" onclick="toggleFullScreen()"><i class="fas fa-expand"></i></button>
+    </div>
+  </div>
+  
+  <script>
+    var video = document.getElementById("myVideo");
+    var volumeBar = document.getElementById("volume-bar");
+    var speedSelect = document.getElementById("speed");
+    var progressBar = document.getElementById("progress-bar");
+    var progressBarInner = document.getElementById("progress-bar-inner");
+    var currentTimeDisplay = document.getElementById("current-time");
+    var playIcon = document.getElementById("play-icon");
+    var pauseIcon = document.getElementById("pause-icon");
+    var controls = document.getElementById("controls");
+  
+    function togglePlayPause() {
+      if (video.paused) {
+        video.play();
+        playIcon.style.display = "none";
+        pauseIcon.style.display = "inline-block";
+      } else {
+        video.pause();
+        playIcon.style.display = "inline-block";
+        pauseIcon.style.display = "none";
+      }
+    }
+  
+    function changeVolume() {
+      video.volume = volumeBar.value;
+    }
+  
+    function toggleFullScreen() {
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.mozRequestFullScreen) {
+        video.mozRequestFullScreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+      }
+    }
+  
+    function changeSpeed() {
+      video.playbackRate = parseFloat(speedSelect.value);
+    }
+  
+    function updateProgressBar() {
+      var value = (video.currentTime / video.duration) * 100;
+      progressBarInner.style.width = value + "%";
+      updateTimeDisplay();
+    }
+  
+    function updateTimeDisplay() {
+      var currentTime = formatTime(video.currentTime);
+      currentTimeDisplay.textContent = currentTime;
+    }
+  
+    function formatTime(seconds) {
+      var minutes = Math.floor(seconds / 60);
+      var remainingSeconds = Math.floor(seconds % 60);
+      return minutes + ":" + (remainingSeconds < 10 ? "0" : "") + remainingSeconds;
+    }
+  
+    function seek(event) {
+      var percent = event.offsetX / progressBar.clientWidth;
+      video.currentTime = percent * video.duration;
+      updateProgressBar();
+    }
+  
+    function showControls() {
+      controls.style.opacity = 1;
+      clearTimeout(hideControlsTimeout);
+      hideControlsTimeout = setTimeout(function () {
+        controls.style.opacity = 0;
+      }, 10000);
+    }
+  
+    function hideControls() {
+      controls.style.opacity = 0;
+    }
+  
+    function rewind() {
+      var newTime = (video.currentTime - 5) < 0 ? 0 : (video.currentTime - 5);
+      video.currentTime = newTime;
+      updateProgressBar();
+    }
+  
+    function fastForward() {
+      var newTime = (video.currentTime + 5) > video.duration ? video.duration : (video.currentTime + 5);
+      video.currentTime = newTime;
+      updateProgressBar();
+    }
+  
+    var hideControlsTimeout;
+    video.addEventListener("timeupdate", updateProgressBar);
+  </script>
+
+
+
+
+
+    <!-- About Section -->
+    <div class="card-container" style="background-color: rgba(255, 255, 255, 0.507)">
+      <div class="card u-clearfix">
+        <div class="card-body">
+          <div class="w3-container w3-content w3-center w3-padding-64" style="max-width:100%" id="band">
+            <h2 class="w3-wide">Nosotros</h2>
+            <p class="w3-opacity"><i>En ZenMindConnect</i></p>
+            <p class="w3-justify">ZenMindConnect es mucho más que una plataforma, es una comunidad comprometida con el bienestar mental y emocional. Nosotros, en ZenMindConnect, nos esforzamos por proporcionar un espacio seguro y acogedor donde las personas pueden encontrar apoyo, recursos y herramientas para mejorar su salud mental.
+              Nuestra misión es facilitar el acceso a servicios y actividades que promuevan el equilibrio y la paz interior. Creemos en la importancia de la conexión humana y en el poder de compartir experiencias para fortalecer la resiliencia emocional.
+              En ZenMindConnect, trabajamos de la mano con profesionales de la salud mental, psicólogos y expertos en bienestar para ofrecer a nuestros usuarios una gama diversa de opciones, desde sesiones terapéuticas hasta actividades de autocuidado y contenido educativo.
+              Valoramos la privacidad y la confidencialidad, asegurando que cada miembro de nuestra comunidad se sienta seguro al explorar su viaje hacia una mente más tranquila y equilibrada. Creemos que el bienestar mental es un derecho fundamental, y estamos comprometidos a eliminar barreras y estigmas que puedan dificultar el acceso a la ayuda.
+              Únete a nosotros en ZenMindConnect y forma parte de una comunidad que abraza la diversidad, fomenta el crecimiento personal y se esfuerza por hacer del bienestar mental una prioridad para todos. Juntos, creamos un espacio donde cada mente pueda florecer.".</p>
+            <div class="w3-row w3-padding-32">
+              <div class="w3-third">
+                <p>Tranquilidad</p>
+                <img src="../../static/IMG/2.png" class="w3-round w3-margin-bottom" alt="Random Name" style="width:80%">
+              </div>
+              <div class="w3-third">
+                <p>Superación</p>
+                <img src="../../static/IMG/1.png" class="w3-round w3-margin-bottom" alt="Random Name" style="width:70%">
+              </div>
+              <div class="w3-third">
+                <p>Benevolencia</p>
+                <img src="../../static/IMG/3.png" class="w3-round" alt="Random Name" style="width:80%">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+
+
+    <section>
+      <h1>Ubicación <i class="fa fa-map" aria-hidden="true"></i>
+        <p>Nuestras futuras sedes <i class="fa fa-home" aria-hidden="true"></i>
+        <div id="map">
+        </div>
+    </section>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <style>
+    /* Estilos CSS generales */
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Estilos CSS para el banner de anuncio */
+    .anuncio {
+        padding: 8px;
+        border: 1px solid #ccc;
+        text-align: center;
+        margin-bottom: 10px; /* Espacio opcional después del anuncio */
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Estilos CSS para las estrellitas */
+    .estrellitas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('ruta_a_la_imagen_estrellitas.png'); /* Añade tu propia imagen de estrellitas */
+        animation: estrellitasAnimacion 1s linear infinite;
+    }
+
+    @keyframes estrellitasAnimacion {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    /* Estilos CSS para el card del producto */
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 10px; /* Espacio entre los cards */
+        display: flex;
+        align-items: center;
+    }
+
+    /* Estilos CSS para la animación del producto */
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    /* Estilos CSS para la imagen del producto */
+    .producto-img {
+        max-width: 60%;
+        height: auto;
+        border-radius: 8px 0 0 8px;
+        padding: 10px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* Estilos CSS para el texto del producto */
+    .producto-texto {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: auto;
+        padding: 10px;
+        border-radius: 0 8px 8px 0;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra de texto */
+        transition: color 0.3s ease-in-out;
+        position: relative;
+        z-index: 2; /* Asegurar que el texto esté encima del fondo líquido */
+    }
+
+    /* Efecto de sobresalir al pasar el mouse */
+    .card:hover .producto-img {
+        transform: scale(1.1);
+    }
+
+    .pepsi {
+        position: relative;
+        background: linear-gradient(45deg, #0470DC, #001a66); /* Degradado azul de Pepsi */
+        z-index: 2; /* Asegurar que el contenido esté encima del fondo líquido */
+        overflow: hidden;
+    }
+
+    /* Fondo líquido en toda la zona azul */
+    .pepsi:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        animation: liquidoAnimacion 2s ease-in-out infinite;
+    }
+
+    @keyframes liquidoAnimacion {
+        0% {
+            transform: skewY(20deg);
+        }
+        50% {
+            transform: skewY(-20deg);
+        }
+        100% {
+            transform: skewY(20deg);
+        }
+    }
+
+    /* Estilos CSS para el texto de Pepsi */
+    .producto-texto-pepsi {
+        font-family: 'Helvetica', sans-serif; /* Fuente genérica para Pepsi */
+        font-size: 20px;
+        font-weight: bold;
+        color: #000; /* Color inicial del texto */
+        z-index: 3; /* Asegurar que el texto esté encima del fondo líquido */
+    }
+
+    /* Cambiar color del texto a blanco al pasar el mouse */
+    .pepsi:hover .producto-texto-pepsi {
+        color: #fff; /* Cambiar color del texto al pasar el mouse */
+    }
+
+    anuncio-texto {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        z-index: 4; /* Asegurar que el texto esté encima de todo */
+    }
+
+  </style>
+
+
+
+
+
+
+<!-- Sección de Pepsi -->
+<div class="anuncio pepsi">
+    <div class="estrellitas"></div>
+
+    <!-- Card de Pepsi -->
+    <div class="card pepsi">
+      <div style="display: flex; align-items: center;">
+        <div class="anuncio-texto" style="color: white; font-weight: bold;">PEPSI</div>
+        <img src="../../static/IMG/PEPSI logo.png" alt="Pepsi Logo" style="width: 100px; height: 100px; margin-left: 10px;">
+      </div>
+      <img class="producto-img" src="../../static/IMG/pepsi.png" alt="Pepsi">
+        <div class="producto-texto producto-texto-pepsi">¡PEPSI, es lo que quiero!</div>
+    </div>
+</div>
+
+
+
+  
+
+
+
+
+
+
+    <!--::::Pie de Pagina::::::-->
+    <footer class="pie-pagina">
+      <div class="grupo-1">
+        <div class="box">
+          <figure>
+            <a href="#">
+              <img src="../../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+            </a>
+          </figure>
+        </div>
+        <div class="box">
+          <h2>Integrantes</h2>
+          <p>Nicolas Parra</p>
+          <p>Alexis Peña</p>
+        </div>
+        <div class="box">
+          <h2>SIGUENOS EN REDES SOCIALES</h2>
+          <div class="red-social">
+            <a target="_blank" href="https://www.facebook.com/profile.php?id=100081188664230"
+              class="fa fa-facebook"></a>
+            <a target="_blank" href="https://www.instagram.com/calmind_psicol/" class="fa fa-instagram"></a>
+            <a target="_blank" href="https://twitter.com/Calmind_psico" class="fa fa-twitter"></a></a>
+            <a target="_blank" href="https://www.youtube.com/channel/UCReRVATCJYfHPiw00Be-2ug"
+              class="fa fa-youtube"></a>
+          </div>
+          <h2>Contacto</h2>
+          <h2>ZenMindConnect.scrum@hotmail.com <i class="fa fa-envelope" aria-hidden="true"></i></h2>
+          <h2>777-666-5555 <i class="fa fa-phone-square" aria-hidden="true"></i></h2>
+        </div>
+      </div>
+      <div class="grupo-2">
+        <small>&copy; 2023 <b>Desarrollado por TeamZenMindConnect</b> - @Copyrigth|Todos los Derechos Reservados.</small>
+      </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+    <script src="../static/JS/script.js"></script>
+    <script src="../../static/JS/video.js"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=iniciarMap"></script>
+
+
+
+</body>
+
+</html>

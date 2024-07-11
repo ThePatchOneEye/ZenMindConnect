@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notificaciones</title>
+</head>
+<body>
+    <h1>Tus notificaciones</h1>
+
+    {% for notificacion in notificaciones %}
+    <div class="notificacion">
+        <p>{{ notificacion.contenido }}</p>
+        <a href="{% url 'marcar_notificacion_leida' notificacion.pk %}">Marcar como leído</a>
+    </div>
+{% empty %}
+    <p>No tienes notificaciones nuevas.</p>
+{% endfor %}
+
+</body>
+</html>
+
+

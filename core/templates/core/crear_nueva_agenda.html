@@ -1,0 +1,54 @@
+{% extends 'core/insertar_horarios.html' %}
+{% load static %}
+
+{% block cabecera %}
+
+<title>ZenMindConnect | Creación de agenda </title>
+
+{% endblock cabecera %}
+
+
+{% block content %}
+    {% if user.is_authenticated and user.is_superuser%}
+        <h2>Nuevo Horario <i class="fa fa-calendar-check-o" aria-hidden="true"></i></h2>
+        <br>
+        <form method="POST" class="card" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="save btn btn-success ">Guardar <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+            <br>
+            <a href="{% url 'adm' %}"><button style="width: 798px;" type="button" class="btn btn-danger">Volver a la administración <i class="fa fa-arrow-left" aria-hidden="true"></i></button></a>
+        </form>
+    {% else %}
+        <h2>usted no tiene permiso para acceder a esta página!</h2>
+    {% endif %}
+{% endblock %}
+
+
+<script src="../static/JS/main.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  {% if messages %}
+  {% for m in messages %}
+  <script>
+    Swal.fire({
+      text: "{{m}}",
+      icon: 'success',
+      confirmButtonText: 'Vale',
+      confirmButtonColor: '#b8d6c5',
+      backdrop: true,
+      timer: 10000,
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+    })
+
+  </script>
+
+  {% endfor %}
+  {% endif %}
+  {% block js %}
+  {% endblock %}

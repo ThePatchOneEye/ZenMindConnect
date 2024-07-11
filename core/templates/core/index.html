@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>ZenMindConnect | Inicio</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../static/CSS/style_index.css">
+  <link rel="stylesheet" href="../static/CSS/popads.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,300;0,700;0,900;1,100;1,600&family=Montserrat:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="../static/IMG/logo_final.png">
+
+</head>
+
+
+  <!-- ::::: MENU ::::: -->
+<body>
+  <div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light color-barra">
+      <!-- Logo menu -->
+      <div>
+        <a class="navbar-brand" href="">
+          <img class="logo_final" src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+        </a>
+        <!-- Agregar "Calmind" -->
+        <span class="calmind-text" style="color: white; font-family: 'Roboto', cursive; font-size: 36px;">ZenMindConnect</span>
+      </div>
+      
+      <!-- Botón de hamburguesa -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Contenedor de opciones del menú -->
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navg navbar-nav w-100 justify-center-center">
+          <a class="nav-item nav-link active" href="#">Inicio <i class="fa fa-home" aria-hidden="true"></i></a>
+          <a class="nav-item nav-link" href="{% url 'nos' %}">Nosotros <i class="fa fa-users" aria-hidden="true"></i></a>
+          <!-- Agregamos más enlaces aquí -->
+          {% if user.is_authenticated %}
+          <a class="nav-item nav-link" href="{% url 'frontpage' %}">Blog <i class="fa fa-clipboard" aria-hidden="true"></i></a>
+          
+          {% if user.is_superuser %}
+          <!-- No mostrar esta parte del menú al superusuario -->
+      {% else %}
+          <a class="nav-item nav-link" href="{% url 'autenticar_persona' %}">Reservar una cita <i class="fa fa-calendar-check-o" aria-hidden="true"></i></a>
+    <!-- Mostrar esta parte del menú a otros usuarios -->
+        <!-- Contenido del dropdown -->
+{% endif %}
+          
+          <li class="dropdown">
+            <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }} <i class="fa fa-user-circle" aria-hidden="true"></i></a>
+            <ul class="dropdown-menu">
+              <li><a class="nav-item nav-link" href="{% url 'logout' %}">Cerrar sesión <i class="fa fa-user-times" aria-hidden="true"></i></a></li>
+              <li><a class="nav-item nav-link" href="{% url 'form_mod_persona' %}">Editar perfil <i class="fa fa-pencil-square" aria-hidden="true"></i></a></li>
+            </ul>
+
+
+
+            
+
+
+
+          </li>
+          {% if user.is_superuser %}
+          <li class="dropdown">
+            <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#">Administrar <i class="fa fa-cogs" aria-hidden="true"></i></a>
+            <ul class="dropdown-menu">
+              <li><a class="nav-item nav-link" href="{% url 'adm' %}">Mantenedor de clientes <i class="fa fa-users" aria-hidden="true"></i></a></li>
+            </ul>
+          </li>
+          {% endif %}
+          {% else %}
+          <a class="nav-item nav-link" href="{% url 'log' %}">Iniciar sesión</a>
+          <a class="nav-item nav-link" href="{% url 'form_persona' %}">Registrarse</a>
+          {% endif %}
+        </div>
+      </div>
+
+
+
+      <style>
+        #notificaciones {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+    
+        #contador-notificaciones {
+            background-color: rgb(255, 200, 0);
+            color: rgb(0, 0, 0);
+            border-radius: 50%;
+            padding: 5px; /* Tamaño más pequeño del contador */
+            position: absolute;
+            top: -15px; /* Ajusta la posición vertical para centrarlo */
+            right: -10px; /* Ajusta la posición horizontal para moverlo a la derecha */
+            font-size: 12px; /* Tamaño de fuente más pequeño del contador */
+            width: 24px; /* Ancho fijo para hacerlo circular */
+            height: 24px; /* Alto fijo para hacerlo circular */
+            text-align: center;
+            animation: blinker-relajante 4s linear infinite;
+        }
+    
+        #lista-notificaciones {
+            position: fixed; /* Cambia la posición a fija */
+            top: 50px; /* Ajusta la posición superior según la altura de tu navbar */
+            right: 0;
+            width: 300px;
+            max-height: 400px;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            overflow-y: auto;
+            z-index: 999; /* Añade un valor de z-index alto para que se superponga */
+        }
+    
+        .notificacion {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+    
+        .notificacion-superusuario {
+            /* Estilos específicos para notificaciones del superusuario */
+        }
+    
+        #notificaciones:hover #lista-notificaciones {
+            display: block;
+            animation: none; /* Detén la animación de brillo cuando se despliega la lista */
+        }
+    
+        .oculto {
+            display: none;
+        }
+    
+        @keyframes blinker-relajante {
+            0% {
+                opacity: 1;
+            }
+            25% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            75% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    
+        @keyframes swing-notificaciones {
+            0% {
+                transform: rotate(0deg);
+            }
+            20% {
+                transform: rotate(10deg);
+            }
+            40% {
+                transform: rotate(-10deg);
+            }
+            60% {
+                transform: rotate(10deg);
+            }
+            80% {
+                transform: rotate(-10deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+    
+        #contador-notificaciones {
+            animation: blinker-relajante 4s linear infinite;
+        }
+    
+        #notificacion-icono {
+            animation: swing-notificaciones 3s ease infinite;
+        }
+    </style>
+    
+
+
+
+
+    <div id="notificaciones">
+        <i class="fa fa-bell" style="font-size: 24px;"></i>
+        <span id="contador-notificaciones"></span>
+        <div id="lista-notificaciones" class="oculto">
+          {% if user.persona %}
+            {% if notificaciones_no_leidas %}
+                {% for notificacion in notificaciones_no_leidas %}
+                    <div class="notificacion" data-notificacion-id="{{ notificacion.id }}">
+                        <p>{{ notificacion.fecha }}: {{ notificacion.contenido }}</p>
+                        <p>Comentario del usuario: <strong>{{ notificacion.comentario.author.user.username }}</strong></p>
+                        <p>Comentario de: <span style="font-weight: bold; color: rgb(18, 152, 117);">{{ notificacion.comentario.body }}</span></p>
+                        <a href="{% url 'post_detail' notificacion.comentario.post.slug %}" class="btn btn-info">
+                            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Ir al post
+                        </a>
+                        <button class="marcar-leido btn btn-warning" data-notificacion-id="{{ notificacion.id }}" data-action="marcar">
+                            <i class="fa fa-eye" aria-hidden="true"></i> Marcar como leída
+                        </button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="notificacion">
+                    <p>Aún no hay notificaciones para ti {{user.username}}</p>
+                    <i class="fa fa-bell-slash" style="font-size: 24px;"></i>
+                </div>
+            {% endif %}
+            {% endif %}
+    
+
+
+
+
+
+            {% if user.is_superuser %}
+            <!-- Notificaciones del superusuario -->
+            {% if notificaciones_superusuario_no_leidas %}
+            {% for notificacion in notificaciones_superusuario_no_leidas %}
+            <div class="notificacion" data-notificacion-id="{{ notificacion.id }}">
+              <p>{{ notificacion.fecha }}: {{ notificacion.contenido | safe }}</p>
+              <p>Autor del post: <strong style="color: #3498db;">{{ notificacion.comentario.post.author.user.username }}</strong></p>
+              <p>Autor del comentario: <strong style="color: #e67e22;">{{ notificacion.comentario.author.user.username }}</strong></p>
+              <!-- Mostrar el comentario y resaltar la palabra "negativo" en rojo -->
+              <p>El comentario es: 
+                  <span style="font-weight: bold; color: rgb(18, 152, 117);">
+                      {% if 'negativo' in notificacion.comentario.body %}
+                          <span style="color: red;">{{ notificacion.comentario.body }}</span>
+                      {% else %}
+                          {{ notificacion.comentario.body }}
+                      {% endif %}
+                  </span>
+              </p>
+              
+              <a href="{% url 'post_detail' notificacion.comentario.post.slug %}" class="btn btn-info">
+                  <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Ir al post
+              </a>
+          
+              <button class="marcar-leido btn btn-warning" data-notificacion-id="{{ notificacion.id }}" data-action="marcar">
+                  <i class="fa fa-eye" aria-hidden="true"></i> Marcar como leída
+              </button>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="notificacion notificacion-superusuario">
+              <p>Aún no hay notificaciones para ti administrador</p>
+              <i class="fa fa-bell-slash" style="font-size: 24px;"></i>
+            </div>
+            {% endif %}
+          {% endif %}
+
+
+</div>
+</div>
+
+<script>
+  const contadorNotificaciones = document.getElementById('contador-notificaciones');
+  const listaNotificaciones = document.getElementById('lista-notificaciones');
+  const notificacionesNoLeidas = document.querySelectorAll('.notificacion');
+  const notificacionesSuperusuarioNoLeidas = document.querySelectorAll('.notificacion-superusuario');
+
+  function marcarComoLeidoOEliminarSuperusuario(notificacionId, elementoHTML) {
+      $.ajax({
+          url: '/marcar-notificacion-superusuario-leida/' + notificacionId + '/',
+          method: 'GET',
+          success: function (data) {
+              if (data.mensaje === 'Notificación del superusuario marcada como leída con éxito') {
+                  elementoHTML.remove();
+                  if (notificacionesSuperusuarioNoLeidas.length === 0) {
+                      listaNotificaciones.innerHTML = '<div class="notificacion"><p>Aún no hay notificaciones</p><i class="fa fa-bell-slash" style="font-size: 24px;"></i></div>';
+                      contadorNotificaciones.style.display = 'none';
+                  } else {
+                      contadorNotificaciones.textContent = notificacionesSuperusuarioNoLeidas.length;
+                  }
+              }
+          },
+      });
+  }
+
+  function marcarComoLeidoOEliminar(notificacionId, elementoHTML) {
+      $.ajax({
+          url: '/marcar-notificacion-leida/' + notificacionId + '/',
+          method: 'GET',
+          success: function (data) {
+              if (data.mensaje === 'Notificación marcada como leída con éxito') {
+                  $.ajax({
+                      url: '/eliminar-notificacion/' + notificacionId + '/',
+                      method: 'GET',
+                      success: function (data) {
+                          if (data.mensaje === 'Notificación eliminada con éxito') {
+                              elementoHTML.remove();
+                              if (notificacionesNoLeidas.length === 0) {
+                                  listaNotificaciones.innerHTML = '<div class="notificacion"><p>Aún no hay notificaciones</p><i class="fa fa-bell-slash" style="font-size: 24px;"></i></div>';
+                                  contadorNotificaciones.style.display = 'none';
+                              } else {
+                                  contadorNotificaciones.textContent = notificacionesNoLeidas.length;
+                              }
+                          }
+                      },
+                  });
+              }
+          },
+      });
+  }
+
+  if (notificacionesNoLeidas.length > 0) {
+      contadorNotificaciones.textContent = notificacionesNoLeidas.length;
+      const botonesMarcarLeido = document.querySelectorAll('.marcar-leido');
+
+      botonesMarcarLeido.forEach((boton, index) => {
+          boton.addEventListener('click', function () {
+              const notificacion = notificacionesNoLeidas[index];
+              const notificacionId = notificacion.getAttribute('data-notificacion-id');
+              marcarComoLeidoOEliminar(notificacionId, notificacion);
+          });
+      });
+  } else {
+      contadorNotificaciones.style.display = 'none';
+  }
+
+  if (notificacionesSuperusuarioNoLeidas.length > 0) {
+      const botonesMarcarLeidoSuperusuario = document.querySelectorAll('.marcar-leido-superusuario');
+
+      botonesMarcarLeidoSuperusuario.forEach((boton, index) => {
+          boton.addEventListener('click', function () {
+              const notificacionSuperusuario = notificacionesSuperusuarioNoLeidas[index];
+              const notificacionSuperusuarioId = notificacionSuperusuario.getAttribute('data-notificacion-id');
+              marcarComoLeidoOEliminarSuperusuario(notificacionSuperusuarioId, notificacionSuperusuario);
+          });
+      });
+  }
+
+  document.getElementById('notificaciones').addEventListener('click', function () {
+      if (listaNotificaciones.style.display === 'block') {
+          listaNotificaciones.style.display = 'none';
+      } else {
+          listaNotificaciones.style.display = 'block';
+      }
+  });
+</script>
+    </nav>
+    <!-- ::::: FIN MENU ::::: -->
+
+
+    <!-- ::::: CARRUSEL ::::: -->
+    <div id="carousel1" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carousel1" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel1" data-slide-to="1"></li>
+        <li data-target="#carousel1" data-slide-to="2"></li>
+      </ol>
+      <!-- diapositivas -->
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img class="d-block w-100" src="../static/IMG/carru1.jfif" alt="" style="max-height: 550px;">
+          <div class="carousel-caption">
+            <h3>Nuestra mente es parte de nuestra integridad</h3>
+            <p>Acude a nuestra sección de "Blog" para contar tu historia y/o experiencias</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="../static/IMG//carru2.jfif" alt="" style="max-height: 550px;">
+          <div class="carousel-caption">
+            <h3>Por ti y tu familia</h3>
+            <p>Tenemos un gran variedad de profesionales en psicologia en diversos ámbitos.</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img class="d-block w-100" src="../static/IMG//carru3.jfif" alt="" style="max-height: 550px;">
+          <div class="carousel-caption">
+            <h3>Por tu cuidado y tranquilidad</h3>
+            <p>Vive una vida más tranquila con apoyo.</p>
+          </div>
+        </div>
+      </div>
+      <!-- botones de desplazamiento a izquierda y derecha -->
+      <a class="carousel-control-prev" href="#carousel1" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carousel1" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+    <!-- ::::: CARRUSEL ::::: -->
+
+    <!-- ::::: Video anuncio ::::: -->
+    {% if video_anuncio %}
+    <!-- Bootstrap CSS (puedes cambiar a tu archivo CSS local si lo tienes) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="videoModalLabel">Publicidad ZenMindConnect</h5>
+                </div>
+                <div class="modal-body">
+                    <video id="myVideo" controls>
+                        <source src="../../static/Video/Video ZenMindConnect.mp4" type="video/mp4">
+                        Tu navegador no soporta el tag de video.
+                    </video>
+                </div>
+                <div class="modal-footer bg-success text-white">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <span id="skipText">Podrás omitir la publicidad en <span id="countdown">15</span> segundos</span>
+                        <button type="button" class="btn btn-light" id="skipButton" onclick="skipVideo()" disabled>Omitir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- jQuery (debes incluirlo antes de Bootstrap JS) -->
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
+    
+    <!-- Bootstrap JS (puedes cambiar a tu archivo JS local si lo tienes) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var secondsToSkip = 15;
+            var countdownElement = document.getElementById("countdown");
+            var skipTextElement = document.getElementById("skipText");
+            var skipButton = document.getElementById("skipButton");
+    
+            // Inicia el contador de segundos
+            var countdownInterval = setInterval(function() {
+                countdownElement.textContent = secondsToSkip;
+    
+                // Actualiza el texto del span según el estado del botón
+                if (secondsToSkip <= 0) {
+                    skipTextElement.textContent = "Ya puedes omitir el video";
+                    skipButton.disabled = false;
+                }
+    
+                secondsToSkip--;
+            }, 1000);
+    
+            // Muestra el modal después de 2000 milisegundos (2 segundos)
+            setTimeout(function() {
+                $('#videoModal').modal('show');
+                // Reproduce el video automáticamente cuando el modal se muestra
+                $('#videoModal').on('shown.bs.modal', function () {
+                    var video = document.getElementById("myVideo");
+                    video.play();
+                });
+            }, 2000);
+    
+            // Función para omitir el video y cerrar el modal
+            window.skipVideo = function() {
+                // Detiene el video
+                var video = document.getElementById("myVideo");
+                video.pause();
+                video.currentTime = 0;
+    
+                // Oculta el modal
+                $('#videoModal').modal('hide');
+            };
+        });
+    </script>
+    {% endif %}
+<style>
+ body {
+     font-family: Arial, sans-serif;
+     background-color: #f4f4f4;
+     text-align: center;
+     margin: 0;
+     padding: 0;
+ }
+
+ #video-container {
+     max-width: 800px;
+     margin: 20px auto;
+     position: relative;
+ }
+
+ video {
+     width: 100%;
+     height: auto;
+     display: block;
+ }
+
+ #skip-button {
+     background: none;
+     border: none;
+     color: #fff;
+     cursor: pointer;
+     font-size: 16px;
+     margin-top: 10px;
+ }
+
+ h2 {
+     color: #333;
+ }
+</style>
+
+
+
+
+
+
+    <!-- ::::: TARJETA ::::: -->
+
+    <div class="card-container">
+      <div class="card u-clearfix">
+        <div class="card-body">
+          <span class="card-number card-circle subtle">01</span>
+
+          <span class="card-author subtle">¿Qué es?</span>
+          <h1 class="card-title">ZenMindConnect</h1>
+          <span class="card-description subtle">Es una iniciativa para orientar y ayudar a las personas que mas lo
+            necesiten en tiempo de pandemia o como necesidad para la vida cotidiana.
+
+            Es capaz de ayudarte en tu estado emocional como fisico a un costo acequible para todos. Aparte de eso,
+            puedes
+            seleccionar el horario que más creas conveniente y reservar una hora con anticipación.
+
+            Tambien puedes seleccionar al psicologo que más te acomode y contactarte directamente con el.
+
+            Si quieres ser parte de Calmind, debes de estar estudiando psicologia o ya encontrarte graduado en esta
+            especialidad.
+
+            COMO DECIMOS EN ZenMindConnect
+
+            "No solo calmamos tu mente si no tambien tu corazón"
+          </span>
+          <div class="card-read"></div>
+          <span class="card-tag card-circle subtle">C</span>
+        </div>
+        <img src="../static/IMG/CARD_IMAGE.jfif" alt="" class="card-media" />
+      </div>
+      <div class="card-shadow"></div>
+    </div>
+    <br><br><br>
+
+    <!-- ::::: FIN TARJETA ::::: -->
+  </div>
+  <!-- ::::: AQUI PONDREMOS UN ANUNCIO ::::: -->
+     
+  <style>
+    /* Estilos CSS generales */
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Estilos CSS para el banner de anuncio */
+    .anuncio {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Estilos CSS para las estrellitas */
+    .estrellitas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+        pointer-events: none; /* Evitar que las estrellitas afecten a los elementos debajo */
+        z-index: 0; /* Poner las estrellas detrás del contenido */
+    }
+
+    .estrellitas:before {
+        content: '\2605 \2605 \2605 \2605 \2605'; /* Código de estrella unicode */
+        font-size: 40px;
+        color: #fff;
+        line-height: 40px;
+        display: block;
+        animation: estrellitasAnimacion 1s linear infinite;
+    }
+
+    @keyframes estrellitasAnimacion {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    /* Estilos CSS para el card del producto */
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 10px; /* Espacio entre los cards */
+        display: flex;
+        align-items: center;
+        z-index: 1; /* Asegurar que el contenido esté encima de las estrellitas */
+    }
+
+    /* Estilos CSS para la animación del producto */
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    /* Estilos CSS para la imagen del producto */
+    .producto-img {
+        max-width: 60%;
+        height: auto;
+        border-radius: 8px 0 0 8px;
+        padding: 10px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* Estilos CSS para el texto del producto */
+    .producto-texto {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: auto;
+        padding: 10px;
+        border-radius: 0 8px 8px 0;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra de texto */
+        transition: color 0.3s ease-in-out;
+        position: relative;
+        z-index: 2; /* Asegurar que el texto esté encima de las estrellitas */
+    }
+
+    /* Efecto de sobresalir al pasar el mouse */
+    .card:hover .producto-img {
+        transform: scale(1.1);
+    }
+
+    .cocacola {
+        position: relative;
+        background: linear-gradient(45deg, #ff0000, #cc0000); /* Degradado rojo */
+        z-index: 2; /* Asegurar que el contenido esté encima de las estrellitas */
+        overflow: hidden;
+    }
+
+    /* Fondo líquido en toda la zona roja */
+    .cocacola:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(transparent 60%, #cc0000 60%);
+        animation: liquidoAnimacion 0.5s ease-in-out infinite;
+    }
+
+    @keyframes liquidoAnimacion {
+        0% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    /* Estilos CSS para el texto de Coca Cola */
+    .producto-texto-coca-cola {
+        font-family: 'Spencerian Script', cursive; /* Fuente de Coca Cola */
+        font-size: 20px;
+        font-weight: bold;
+        color: #000; /* Inicialmente negro */
+        z-index: 3; /* Asegurar que el texto esté encima del fondo líquido */
+    }
+
+    /* Cambiar color del texto a blanco al pasar el mouse */
+    .cocacola:hover .producto-texto-coca-cola {
+        color: #fff;
+    }
+
+    anuncio-texto {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        z-index: 4; /* Asegurar que el texto esté encima de todo */
+    }
+</style>
+
+<!-- Sección de Coca Cola -->
+<div class="anuncio cocacola">
+    <div class="estrellitas"></div>
+
+
+
+
+    <!-- Card de Coca Cola -->
+    <div class="card cocacola">
+      <div style="display: flex; align-items: center;">
+        <div class="anuncio-texto" style="color: white; font-weight: bold;"> </div>
+        <img src="../../static/IMG/Coca-logo.png" alt="cocacola Logo" style="width: 100px; height: 100px; margin-left: 10px;">
+      </div>
+        <img class="producto-img" src="../../static/IMG/coc.png" alt="Coca Cola">
+        <div class="producto-texto producto-texto-coca-cola">¡Refresca tu día con Coca Cola!</div>
+    </div>
+</div>
+
+
+  <!--::::: PIE DE PAGINA :::::-->
+
+  <footer class="pie-pagina">
+    <div class="grupo-1">
+      <div class="box">
+        <figure>
+          <a href="#">
+            <img src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+          </a>
+        </figure>
+      </div>
+      <div class="box">
+        <h2>Integrantes</h2>
+        <p>Nicolas Parra</p>
+        <p>Alexis Peña</p>
+      </div>
+      <div class="box">
+        <h2>SIGUENOS EN REDES SOCIALES</h2>
+        <div class="red-social">
+          <a target="_blank" href="https://www.facebook.com/profile.php?id=100081188664230" class="fa fa-facebook"></a>
+          <a target="_blank" href="https://www.instagram.com/calmind_psicol/" class="fa fa-instagram"></a>
+          <a target="_blank" href="https://twitter.com/Calmind_psico" class="fa fa-twitter"></a></a>
+          <a target="_blank" href="https://www.youtube.com/channel/UCReRVATCJYfHPiw00Be-2ug" class="fa fa-youtube"></a>
+        </div>
+        <h2>Contacto</h2>
+        <h2>ZenMindConnect.scrum@hotmail.com<i class="fa fa-envelope" aria-hidden="true"></i></h2>
+        <h2>777-666-5555 <i class="fa fa-phone-square" aria-hidden="true"></i></h2>
+      </div>
+    </div>
+    <div class="grupo-2">
+      <small>&copy; 2023 <b>Desarrollado por TeamZenMindConnect</b> - @Copyrigth| Todos los Derechos Reservados.</small>
+    </div>
+  </footer>
+
+  <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="../static/JS/main.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../static/JS/sweetAlert.js"></script>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+  
+
+</body>
+
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title>ZenMindConnect | Comprobante de Reserva</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="../../static/IMG/logo_final.png">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+  <style>
+    body {
+      font-family: "Raleway", Arial, Helvetica, sans-serif;
+      background-color: #f4f4f4; /* Fondo gris claro */
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .logo_final {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+    }
+
+    .calmind-text {
+      color: #006400;
+      font-family: 'Roboto', cursive;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 20px;
+      background-color: #fff; /* Fondo blanco */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #dddddd; /* Borde inferior gris claro */
+    }
+
+    th {
+      background-color: #f2f2f2; /* Fondo gris claro para las cabeceras */
+    }
+
+    .download-button {
+      background-color: #006400;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .download-button:hover {
+      background-color: #ffd700;
+      color: #006400;
+    }
+
+    /* Estilo específico para impresión (PDF) */
+    @media print {
+      body {
+        background-color: white; /* Fondo blanco para la impresión */
+      }
+
+      .download-button {
+        display: none; /* Ocultar el botón de descarga en el PDF */
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #b0e0e6; /* Color de fondo celeste */
+    }
+
+    .tree {
+      position: relative;
+      width: 200px;
+      height: 300px;
+    }
+
+    .trunk {
+      position: absolute;
+      background-color: #8b4513; /* Color del tronco marrón */
+      width: 50px;
+      height: 150px;
+      bottom: 0;
+      left: 75px;
+    }
+
+    .branch {
+      position: absolute;
+      background-color: #008000; /* Color de las ramas verde */
+      width: 100px;
+      height: 100px;
+    }
+
+    .branch1 { transform: rotate(45deg); top: 30px; left: 100px; }
+    .branch2 { transform: rotate(-45deg); top: 30px; left: 50px; }
+    .branch3 { transform: rotate(20deg); top: 10px; left: 130px; }
+    /* Agrega más ramas según sea necesario */
+
+  </style>
+</head>
+
+<body>
+
+  <div class="tree">
+    <div class="trunk"></div>
+    <div class="branch branch1"></div>
+    <div class="branch branch2"></div>
+    <div class="branch branch3"></div>
+    <!-- Agrega más ramas según sea necesario -->
+  </div>
+
+
+
+
+  <h1 class="calmind-text">Comprobante de reserva | ZenMindConnect</h1>
+
+  <div class="content">
+    <h2>{{user.username}}, tus horas son:</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Psicologo</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for consultas in persona.consulta.all %}
+        <tr>
+          <td>{{ consultas.psicologo }}</td>
+          <td>{{ consultas.data }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="2">Aún no has reservado ninguna hora <i class="fa fa-calendar-check-o" aria-hidden="true"></i></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <button class="download-button" onclick="downloadComprobante()">
+    <i class="fa fa-download"></i> Descargar Comprobante
+  </button>
+
+  <script>
+    // Función para descargar el comprobante como PDF usando html2pdf
+    function downloadComprobante() {
+      var element = document.body;
+      var options = {
+        filename: 'comprobante_de_reserva_ZenMindConnect.pdf',
+        margin: 10,
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait',
+        }
+      };
+      html2pdf(element, options);
+    }
+  </script>
+
+</body>
+
+</html>

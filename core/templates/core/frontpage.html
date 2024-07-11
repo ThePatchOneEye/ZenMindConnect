@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <title>ZenMindConnect | Ver blogs</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,300;0,700;0,900;1,100;1,600&family=Montserrat:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="../static/IMG/logo_final.png">
+
+
+
+  <link rel="stylesheet" href="../static/CSS/style_frontpage.css">
+
+</head>
+
+<body>
+
+  <!-- ::::: MENU ::::: -->
+
+  <div class="header">
+    <nav class="navbar navbar-expand-lg navbar-light color-barra">
+      <!-- Logo menu -->
+      <div>
+        <a class="navbar-brand" href="">
+          <img class="logo_final" src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+        </a>
+        <span class="calmind-text" style="color: white; font-family: 'Roboto', cursive; font-size: 36px;">ZenMindConnect</span>
+      </div>
+      <!-- Botón de hamburguesa -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Contenedor de opciones del menú -->
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navg navbar-nav w-100 justify-center-center">
+          <a class="nav-item nav-link active" href="{% url 'index' %}" style="color: white;">
+            Inicio <i class="fa fa-home" aria-hidden="true"></i>
+          </a>
+          <a class="nav-item nav-link" href="{% url 'nos' %}" style="color: white;">
+            Nosotros <i class="fa fa-users" aria-hidden="true"></i>
+          </a>
+          {% if user.is_authenticated %}
+          <a class="nav-item nav-link" href="{% url 'frontpage' %}" style="color: white;">
+            Blog <i class="fa fa-clipboard" aria-hidden="true"></i>
+          </a>
+          {% if user.is_superuser %}
+          <!-- No mostrar esta parte del menú al superusuario -->
+      {% else %}
+          <a class="nav-item nav-link" href="{% url 'autenticar_persona' %}">Reservar una cita <i class="fa fa-calendar-check-o" aria-hidden="true"></i></a>
+    <!-- Mostrar esta parte del menú a otros usuarios -->
+        <!-- Contenido del dropdown -->
+{% endif %}
+          <li class="dropdown">
+            <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;">
+              {{ user.username }} <i class="fa fa-user-circle" aria-hidden="true"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="nav-item nav-link" href="{% url 'logout' %}" style="color: white;">
+                  Cerrar sesión <i class="fa fa-user-times" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li><a class="nav-item nav-link" href="{% url 'form_mod_persona' %}">Editar perfil <i class="fa fa-pencil-square" aria-hidden="true"></i></a></li>
+            </ul>
+          </li>
+          {% if user.is_superuser %}
+          <li class="dropdown">
+            <a class="nav-item nav-link dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;">
+              Administrar <i class="fa fa-cogs" aria-hidden="true"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="nav-item nav-link" href="adm" style="color: white;">
+                  Mantenedor de clientes <i class="fa fa-users" aria-hidden="true"></i>
+                </a>
+              </li>
+            </ul>
+          </li>
+          {% endif %}
+          {% else %}
+          <a class="nav-item nav-link" href="{% url 'log' %}" style="color: white;">Iniciar sesión</a>
+          <a class="nav-item nav-link" href="{% url 'form_persona' %}" style="color: white;">Registrarse</a>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+  
+    
+
+    <!-- ::::: FIN MENU ::::: -->
+
+    <section>
+      <center>
+        <h1>Publicaciones <i class="fa fa-clipboard" aria-hidden="true"></i></h1>
+
+      </center>
+      <div id="sep">
+      </div>
+    </section>
+    <br><br>
+
+    <div class="card-container">
+      <div class="card u-clearfix">
+        <div class="card-body">
+          <center>
+            {% if user.is_superuser %}
+              <h1>Aquí puedes administrar los BLOGS de los usuarios</h1>
+            {% else %}
+              <h1>Aquí puedes desahogarte</h1>
+              <a href="{% url 'form_post' %}" class="btn btn-success">Añadir post <i class="fa fa-clipboard" aria-hidden="true"></i>➕</a>
+
+            {% endif %}
+          </center>
+        </div>
+      </div>
+    </div>
+    <br><br>
+
+
+    <div class="card-container" style="font-size: large;">
+      <div class="card">
+        <div class="card-body">
+          {% block content %}
+          {% for post in posts %}
+          <div class="post block">
+            <h2 class="subtitle">Titulo: {{ post.title }}</h2>
+            {% if user.is_authenticated and user.persona == post.author %}
+            <p style="color: rgb(202, 255, 228); font-weight: bold;">Ha sido posteado por ti</p>
+            {% endif%}
+            <p><strong>Autor: {{ post.author.user.username }}</strong></p>
+            <p><strong>Tema: {{ post.hilo }}</strong></p>
+            <small>Posteado en {{ post.date_added }}</small>
+
+            <p>{{ post.intro }}</p>
+            <br><br>
+            <center>
+              <a href="{% url 'post_detail' post.slug %}" class="btn btn-info">Ver más <i class="fa fa-eye" aria-hidden="true"></i></a>
+
+
+
+              {% if user.is_authenticated and user.persona == post.author %}
+              <a href="{% url 'form_mod_post' post.idPost %}" class="btn btn-secondary">Editar MI Post <i class="fa fa-pencil-square" aria-hidden="true"></i></a>
+              <a href="{% url 'form_borrar_post' post.idPost %}" class="btn btn-danger">Eliminar MI Post <i class="fa fa-trash" aria-hidden="true"></i></a>
+
+          {% endif %}
+          
+
+
+
+            {%if user.is_superuser%}
+            <td><a href="{% url 'form_borrar_post' post.idPost%}" class="btn btn-danger">Eliminar Post <i class="fa fa-trash"
+                  aria-hidden="true"></i>
+            {%endif%}
+
+
+
+
+              </a></td>
+              <br><br><br>
+            <div class="card-shadow"></div>
+          </center>
+          </div>
+        </article>
+        {% empty %}
+        <div class="notification">
+          <p>Aún no hay Posts, Vamos a crear uno! <i class="fa fa-clipboard" aria-hidden="true"></i>
+          </p>
+        </div>
+        {% endfor %}
+  
+          <br><br><br><br>
+          {% endblock %}
+        </div>
+      </div>
+      
+    </div>
+    <br><br>
+
+
+  </div>
+
+      <style>
+        /* Estilos CSS generales */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+    
+        /* Estilos CSS para el banner de anuncio */
+        .anuncio {
+            padding: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+            margin-bottom: 10px; /* Espacio opcional después del anuncio */
+            position: relative;
+            overflow: hidden;
+        }
+    
+        /* Estilos CSS para las estrellitas */
+        .estrellitas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('ruta_a_la_imagen_estrellitas.png'); /* Añade tu propia imagen de estrellitas */
+            animation: estrellitasAnimacion 1s linear infinite;
+        }
+    
+        @keyframes estrellitasAnimacion {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    
+        /* Estilos CSS para el card del producto */
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 10px; /* Espacio entre los cards */
+            display: flex;
+            align-items: center;
+        }
+    
+        /* Estilos CSS para la animación del producto */
+        .card:hover {
+            transform: scale(1.05);
+        }
+    
+        /* Estilos CSS para la imagen del producto */
+        .producto-img {
+            max-width: 60%;
+            height: auto;
+            border-radius: 8px 0 0 8px;
+            padding: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+    
+        /* Estilos CSS para el texto del producto */
+        .producto-texto {
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: auto;
+            padding: 10px;
+            border-radius: 0 8px 8px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra de texto */
+            transition: color 0.3s ease-in-out;
+        }
+    
+        /* Efecto de sobresalir al pasar el mouse */
+        .card:hover .producto-img {
+            transform: scale(1.1);
+        }
+    
+        .card:hover .producto-texto {
+            color: #fff; /* Cambiar color del texto al pasar el mouse */
+        }
+    
+        /* Estilos CSS para el texto de Coca Cola */
+        .producto-texto-coca-cola {
+            font-family: 'Spencerian Script', cursive; /* Fuente de Coca Cola */
+            color: #ffffff; /* Texto blanco */
+            font-size: 20px;
+            font-weight: bold;
+        }
+    
+        /* Estilos CSS para el texto de Pepsi */
+        .producto-texto-pepsi {
+            font-family: 'Helvetica', sans-serif; /* Fuente genérica para Pepsi */
+            color: #ffffff; /* Texto blanco */
+            font-size: 20px;
+            font-weight: bold;
+        }
+    
+        /* Estilos CSS para el texto de Pepsodent */
+        .producto-texto-pepsodent {
+            font-family: 'Arial', sans-serif; /* Fuente genérica para Pepsodent */
+            color: #ffffff; /* Texto blanco */
+            font-size: 20px;
+            font-weight: bold;
+        }
+    
+        /* Estilos CSS para el texto de Colgate */
+        .producto-texto-colgate {
+            font-family: 'Times New Roman', serif; /* Fuente genérica para Colgate */
+            color: #ffffff; /* Texto blanco */
+            font-size: 20px;
+            font-weight: bold;
+        }
+    
+        /* Coca Cola */
+        .cocacola {
+            background: linear-gradient(45deg, #ff0000, #cc0000); /* Degradado rojo */
+        }
+    
+        /* Pepsi */
+        .pepsi {
+            background: linear-gradient(45deg, #0470DC, #001a66); /* Degradado azul */
+        }
+    
+        /* Pepsodent */
+        .pepsodent {
+            background: linear-gradient(45deg, #13F1FC, #0088cc); /* Degradado azul claro */
+        }
+    
+        /* Colgate */
+        .colgate {
+            background: linear-gradient(45deg, #d50000, #990000); /* Degradado rojo oscuro */
+            position: relative;
+            overflow: hidden;
+        }
+    
+        .colgate::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+            background-size: 50px 50px;
+            opacity: 0.3; /* Ajusta la opacidad según sea necesario */
+            animation: pastaDientesAnimacion 2s linear infinite;
+        }
+    
+        @keyframes pastaDientesAnimacion {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+      </style>
+    </head>
+    <body>
+    
+      <!-- Sección de Colgate -->
+      <div class="anuncio colgate">
+        <div class="estrellitas"></div>
+        <!-- Card de Colgate -->
+        <div class="card colgate">
+          <div style="display: flex; align-items: center;">
+            <div class="anuncio-texto" style="color: white; font-weight: bold;"></div>
+            <img src="../../static/IMG/colgate logo.png" alt="Pepsodent Logo" style="width: 300px; height: 100px; margin-left: 10px;">
+          </div>
+          <img class="producto-img" src="../../static/IMG/col.png" alt="Colgate">
+          <div class="producto-texto producto-texto-colgate">¡Colgate, la salud de tu sonrisa!</div>
+        </div>
+      </div>
+    
+    </body>
+  </html>
+  
+  
+
+
+
+  
+
+
+
+
+
+
+
+  <!--::::Pie de Pagina::::::-->
+  <footer class="pie-pagina">
+    <div class="grupo-1">
+      <div class="box">
+        <figure>
+          <a href="#">
+            <img src="../static/IMG/logo_final.png" alt="Logo de ZenMindConnect">
+          </a>
+        </figure>
+      </div>
+      <div class="box">
+        <h2>Integrantes</h2>
+        <p>Nicolas Parra</p>
+        <p>Alexis Peña</p>
+      </div>
+      <div class="box">
+        <h2>SIGUENOS EN REDES SOCIALES</h2>
+        <div class="red-social">
+          <a target="_blank" href="https://www.facebook.com/profile.php?id=100081188664230" class="fa fa-facebook"></a>
+          <a target="_blank" href="https://www.instagram.com/calmind_psicol/" class="fa fa-instagram"></a>
+          <a target="_blank" href="https://twitter.com/Calmind_psico" class="fa fa-twitter"></a></a>
+          <a target="_blank" href="https://www.youtube.com/channel/UCReRVATCJYfHPiw00Be-2ug" class="fa fa-youtube"></a>
+        </div>
+        <h2>Contacto</h2>
+        <h2>ZenMindConnect.scrum@hotmail.com<i class="fa fa-envelope" aria-hidden="true"></i></h2>
+        <h2>777-666-5555 <i class="fa fa-phone-square" aria-hidden="true"></i></h2>
+      </div>
+    </div>
+    <div class="grupo-2">
+      <small>&copy; 2023 <b>Desarrollado por TeamZenMindConnect</b> - @Copyrigth|Todos los Derechos Reservados.</small>
+    </div>
+  </footer>
+
+  <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <script src="../static/JS/main.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  
+
+
+
+
+  
+  {% if messages %}
+  {% for m in messages %}
+    {% if 'success' in m.tags %}
+      {% if 'Publicado' in m.message %}
+        <script>
+          Swal.fire({
+            title: 'Ya está listo!',
+            icon: 'success',
+            confirmButtonText: 'Vale',
+            confirmButtonColor: '#b8d6c5',
+            backdrop: true,
+            timer: 10000,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+          })
+        </script>
+      {% elif 'modificado' in m.message %}
+        <script>
+          Swal.fire({
+            title: 'Ya está modificado!',
+            icon: 'success',
+            confirmButtonText: 'Vale',
+            confirmButtonColor: '#b8d6c5',
+            backdrop: true,
+            timer: 10000,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+          })
+        </script>
+      {% elif 'eliminado' in m.message %}
+        <script>
+          Swal.fire({
+            title: 'Ya está eliminado!',
+            icon: 'success',
+            confirmButtonText: 'Vale',
+            confirmButtonColor: '#b8d6c5',
+            backdrop: true,
+            timer: 10000,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+          })
+        </script>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% block js %}
+{% endblock %}
+
+
+
+<!-- Resto de tu contenido HTML -->
+
+
+</body>
+
+</html>

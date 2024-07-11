@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil | ZenMindConnect</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/CSS/style.modat_persona.css">
+    <link rel="stylesheet" href="https://kit.fontawesome.com/eb496ab1a0.css" crossorigin="anonymous">
+    <link rel="icon" href="../static/IMG/logo_final.png">
+    <!-- Asegúrate de incluir SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
+    <style>
+        body {
+            background-image: url('../../static/IMG/nat4.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .tarjeta-verde {
+            background-color: #74af98;
+        }
+    </style>
+
+    {% if messages %}
+        {% for m in messages %}
+            <center>
+                <br>
+                {% if messages %}
+                    <div>
+                        {% for i in messages %}
+                            <p style="color: rgb(255, 204, 0);">{{ i }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </center>
+        {% endfor %}
+    {% endif %}
+    {% block js %}
+    {% endblock %}
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow tarjeta-verde">
+                    <div class="card-header bg-secondary text-white">
+                        <h3 class="card-title mb-0">Editar Perfil <i class="fa fa-pencil-square" aria-hidden="true"></i></h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="#" id="formulario">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ form.rut.label_tag }}
+                                {{ form.rut }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.nombre.label_tag }}
+                                {{ form.nombre }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.apellido.label_tag }}
+                                {{ form.apellido }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.fechaNac.label_tag }}
+                                {{ form.fechaNac }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.correo.label_tag }}
+                                {{ form.correo }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.telefono.label_tag }}
+                                {{ form.telefono }}
+                            </div>
+                            <div class="mb-3">
+                                <a href="{% url 'changepassword_login' %}">
+                                    <button type="button" class="btn btn-info">Cambiar contraseña <i class="fa fa-key" aria-hidden="true"></i></button>
+                                </a>
+                            </div>
+                            <div class="text-center">
+                                <a href="{% url 'index' %}">
+                                    <button type="button" class="btn btn-danger">Ir Atras <i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                                </a>
+                                <button type="submit" class="btn btn-primary">Modificar <i class="fas fa-sync-alt"></i></button>
+                                <button type="reset" class="btn btn-secondary">Limpiar <i class="fas fa-shower"></i></button>
+                            </div>
+                        </form>
+                        <br>
+                        <!-- Botón de eliminar con SweetAlert2 -->
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-warning" onclick="confirmarEliminarCuenta()">
+                                Eliminar cuenta <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Asegúrate de incluir SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.all.min.js"></script>
+
+    <footer class="pie-pagina mt-5">
+        <!-- Tu pie de página aquí -->
+    </footer>
+
+    <script>
+        function confirmarEliminarCuenta() {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Todos tus posts, consultas y actividad se eliminarán.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'eliminar_cuenta_usuario' %}";
+                }
+            });
+        }
+    </script>
+
+    <!-- Asegúrate de incluir Bootstrap y jQuery -->
+    <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+qU8mL9OD6J5/rMz2On5Tn5Fz5j5q5A5Ltr5z5Lr5n5g5+5B5j" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-d7I10B5F0v5z9AB5frBTKdF/9iIa8zIqo1FvFpisMquFmH8eh/y9te5n6l7f0fqVgH" crossorigin="anonymous"></script>
+</body>
+</html>
